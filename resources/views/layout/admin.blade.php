@@ -267,6 +267,23 @@
             });
         @endif
     </script>
+    
+@endif
+
+@if($errors->any())
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        let mensajes = '';
+        @foreach($errors->all() as $error)
+            mensajes += "{{ $error }}\n";
+        @endforeach
+        Swal.fire({
+            title: 'Error',
+            text: mensajes,
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        });
+    </script>
 @endif
 
 

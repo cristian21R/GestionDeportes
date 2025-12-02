@@ -33,11 +33,18 @@ class PaisController extends Controller
     public function store(Request $request)
     {
         //
+
+  $request->validate([
+        'nombre_pais' => 'required|unique:paises,nombre_pais',
+    ], [
+        'nombre_pais.unique' => 'Este país ya existe.',
+    ]);
+
         $datos=[
             'nombre_pais'=>$request->nombre_pais,
         ];
         Pais::create($datos);
-        return redirect()->route('pais.index')->with('mensaje','Pais registrado con exito');
+        return redirect()->route('pais.index')->with('success','Pais registrado con exito');
     }
 
     /**
@@ -55,6 +62,10 @@ class PaisController extends Controller
     {
         //
         $pais = Pais::findOrFail($id);
+
+
+
+        
         return view('paises.editar',compact('pais'));
 
         
@@ -67,8 +78,17 @@ class PaisController extends Controller
     {
         //
         $pais = Pais::findOrFail($id);
+
+/*esta funcion me permite valdiar que se unico*/
+    $request->validate([
+    'nombre_pais' => 'required|unique:paises,nombre_pais,' . $id,
+], [
+    'nombre_pais.unique' => 'Este país ya existe.',
+]);
+
+
         $pais->update($request->all());
-        return redirect()->route('pais.index')->with('mensaje','Pais actualizado correctamente');
+        return redirect()->route('pais.index')->with('success','Pais actualizado correctamente');
         
     }
 
@@ -79,8 +99,15 @@ class PaisController extends Controller
     {
         //
         $pais = Pais::findOrFail($id);
+
+        if ($pais->paises()->count() > 0) {
+        return redirect()->route('pais.index')
+                         ->with('error', 'No se puede eliminar el pais porque tiene deportistas asociados.');
+        }
+
+
         $pais->delete();
-        return redirect()->route('pais.index')->with('mensaje','Pais eliminado correctamente');
+        return redirect()->route('pais.index')->with('success','Pais eliminado correctamente');
 
         
     }

@@ -35,12 +35,20 @@ class DisciplinaController extends Controller
     public function store(Request $request)
     {
         //
+
+
+            $request->validate([
+        'nombre_disciplina' => 'required|unique:disciplinas,nombre_disciplina',
+    ], [
+        'nombre_disciplina.unique' => 'Esta disciplina ya existe.',
+    ]);
+
         $data = [
             'nombre_disciplina'=>$request->nombre_disciplina,    
         ];
 
         Disciplina::create($data);
-        return redirect()->route('disciplina.index')->with('mensaje','Disciplina registrada correctamente');
+        return redirect()->route('disciplina.index')->with('success','Disciplina registrada correctamente');
     }
 
     /**
@@ -68,8 +76,18 @@ class DisciplinaController extends Controller
     {
         //
         $disciplina= Disciplina::findOrFail($id);
+
+
+  $request->validate([
+        'nombre_disciplina' => 'required|unique:disciplinas,nombre_disciplina,' . $id,
+    ], [
+        'nombre_disciplina.unique' => 'Esta disciplina ya existe.',
+    ]);
+
+
+
         $disciplina->update($request->all());
-        return redirect()->route('disciplina.index')->with('mensaje','Disciplina actualizada correctamente');
+        return redirect()->route('disciplina.index')->with('success','Disciplina actualizada correctamente');
     }
 
     /**
@@ -81,11 +99,11 @@ class DisciplinaController extends Controller
         $disciplina= Disciplina::findOrFail($id);
         if ($disciplina->deportistas()->count() > 0) {
         return redirect()->route('disciplina.index')
-                         ->with('mensaje', 'No se puede eliminar la disciplina porque tiene deportistas asociados.');
+                         ->with('error', 'No se puede eliminar la disciplina porque tiene deportistas asociados.');
         }
 
         $disciplina->delete();
-        return redirect()->route('disciplina.index')->with('mensaje','Disciplina eliminada correctamente');
+        return redirect()->route('disciplina.index')->with('success','Disciplina eliminada correctamente');
 
 
     }

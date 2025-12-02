@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Deportista;
 use App\Models\Pais;
 use App\Models\Disciplina;
+use Illuminate\Validation\Rule;
 
 
 class DeportistaController extends Controller
@@ -38,6 +39,24 @@ class DeportistaController extends Controller
     public function store(Request $request)
     {
         //
+
+/*esta funcion me sirve para validar unicidad en todos sus campos del deportista*/
+   $request->validate([
+        'nombre_deportista' => [
+            'required',
+            Rule::unique('deportistas')->where(function ($query) use ($request) {
+                return $query->where('fk_id_pais', $request->fk_id_pais)
+                             ->where('fk_id_disciplina', $request->fk_id_disciplina)
+                             ->where('nacimiento_deportista', $request->fecha_nacimiento)
+                             ->where('estatura_deportista', $request->estatura)
+                             ->where('peso_deportista', $request->peso);
+            }),
+        ],
+    ], [
+        'nombre_deportista.unique' => 'Este deportista ya existe con los mismos datos.',
+    ]);
+
+
         $data=[
             'nombre_deportista'=>$request->nombre_deportista,
             'fk_id_pais'=>$request->fk_id_pais,
@@ -47,7 +66,7 @@ class DeportistaController extends Controller
             'peso_deportista'=>$request->peso,
         ];
         Deportista::create($data);
-        return redirect()->route('deportista.index')->with('mensaje','Deportista registrado correctamente');
+        return redirect()->route('deportista.index')->with('success','Deportista registrado correctamente');
 
     }
 
@@ -80,8 +99,38 @@ class DeportistaController extends Controller
     {
         //
         $deportista = Deportista::findOrFail($id);
+
+        $request->validate([
+        'nombre_deportista' => [
+            'required',
+            Rule::unique('deportistas')->ignore($deportista->id)->where(function ($query) use ($request) {
+                return $query->where('fk_id_pais', $request->fk_id_pais)
+                             ->where('fk_id_disciplina', $request->fk_id_disciplina)
+                             ->where('nacimiento_deportista', $request->fecha_nacimiento)
+                             ->where('estatura_deportista', $request->estatura)
+                             ->where('peso_deportista', $request->peso);
+            }),
+                ],
+            ], [
+                'nombre_deportista.unique' => 'Este deportista ya existe con los mismos datos.',
+            ]);
+
+
+/*
+ $deportista->update([
+        'nombre_deportista' => $request->nombre_deportista,
+        'fk_id_pais'        => $request->fk_id_pais,
+        'fk_id_disciplina'  => $request->fk_id_disciplina,
+        'nacimiento_deportista' => $request->fecha_nacimiento,
+        'estatura_deportista'   => $request->estatura,
+        'peso_deportista'       => $request->peso,
+    ]);*/
+
+
+
+
         $deportista->update($request->all());
-        return redirect()->route('deportista.index')->with('mensaje','Deportista actualizado correctamente');
+        return redirect()->route('deportista.index')->with('success','Deportista actualizado correctamente');
 
 
     }
@@ -94,7 +143,7 @@ class DeportistaController extends Controller
         //
         $deportista = Deportista::findOrFail($id);
         $deportista->delete();
-        return redirect()->route('deportista.index')->with('mensaje','Deportista eliminado correctamente');
+        return redirect()->route('deportista.index')->with('success','Deportista eliminado correctamente');
 
 
     }

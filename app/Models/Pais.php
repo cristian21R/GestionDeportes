@@ -14,4 +14,9 @@ class Pais extends Model
     protected $fillable = [
         'nombre_pais',
     ];
+
+    public function paises()
+    {
+        return $this->hasMany(Deportista::class, 'fk_id_pais');
+    }
 }
