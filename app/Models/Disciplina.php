@@ -14,6 +14,12 @@ class Disciplina extends Model
         'nombre_disciplina',
     ];
 
+
+    public function deportistas()
+    {
+        return $this->hasMany(Deportista::class, 'fk_id_disciplina');
+    }
+
 }
 
 

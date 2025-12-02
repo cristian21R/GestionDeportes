@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Disciplina;
+use App\Models\Deportista;
 
 class DisciplinaController extends Controller
 {
@@ -78,9 +79,17 @@ class DisciplinaController extends Controller
     {
         //
         $disciplina= Disciplina::findOrFail($id);
+        if ($disciplina->deportistas()->count() > 0) {
+        return redirect()->route('disciplina.index')
+                         ->with('mensaje', 'No se puede eliminar la disciplina porque tiene deportistas asociados.');
+        }
+
         $disciplina->delete();
         return redirect()->route('disciplina.index')->with('mensaje','Disciplina eliminada correctamente');
 
 
     }
+
+
+    
 }

@@ -40,4 +40,31 @@
 
 </div>
 
+<script>
+      $.validator.addMethod("soloLetras", function(value, element) {
+        return this.optional(element) || /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/.test(value);
+    }, "Solo se permiten letras");
+    $("#frm_pais").validate({
+        rules:{
+            nombre_pais:{
+                required: true,
+                minlength: 5,
+                maxlength: 25,
+                soloLetras: true,
+            }
+
+        },
+        messages:{
+
+            nombre_pais:{
+                required: "Campo requerido",
+                minlength: "Minimo 5 caracteres",
+                maxlength: "Maximo 20 caracteres",
+                soloLetras: "Ingrese solo letras",
+
+            }
+        },
+    });
+</script>
+
 @endsection

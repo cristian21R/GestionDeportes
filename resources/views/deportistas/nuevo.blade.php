@@ -11,7 +11,7 @@
 
         <div class="card-body">
 
-            <form action="{{ route('deportista.store') }}" method="POST">
+            <form action="{{ route('deportista.store') }}" method="POST" id="frm_deportista">
                 @csrf
 
                 <div class="mb-3">
@@ -95,4 +95,79 @@
 
 </div>
 
+
+<script>
+      $.validator.addMethod("soloLetras", function(value, element) {
+        return this.optional(element) || /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/.test(value);
+    }, "Solo se permiten letras");
+    $("#frm_deportista").validate({
+        rules:{
+            nombre_deportista:{
+                required: true,
+                minlength: 5,
+                maxlength: 25,
+                soloLetras: true,
+            },
+            fk_id_pais:{
+                required: true,
+            },
+            fk_id_disciplina:{
+                required: true,
+            },
+            fecha_nacimiento: {
+            required: true,
+            date: true,
+            min: "1950-01-01",
+            max: "2013-12-31"
+            },
+            estatura: {
+                required: true,
+                number: true,
+                min: 1.4,
+                max: 2.2
+            },
+            peso: {
+                required: true,
+                number: true,
+                min: 40,
+                max: 200
+            }
+
+        },
+        messages:{
+
+            nombre_deportista:{
+                required: "Campo requerido",
+                minlength: "Minimo 5 caracteres",
+                maxlength: "Maximo 20 caracteres",
+                soloLetras: "Ingrese solo letras",
+
+            },
+            fk_id_pais:{
+                required: "Campo requerido",
+            },
+            fk_id_disciplina:{
+                required: "Campo requerido",
+            },
+            fecha_nacimiento: {
+            required: "Campo requerido",
+            date: "Fecha inválida",
+            min: "Fecha demasiado antigua",
+            max: "Edad mínima 12 años"
+            },
+            estatura: {
+                required: "Campo requerido",
+                number: "Ingrese un número válido",
+                min: "La estatura no puede ser menor a 1.40 m",
+                max: "La estatura no puede superar los 2.20 m"
+            },
+            peso: {
+                required: "Campo requerido",
+                number: "Ingrese un número válido",
+                min: "El peso no puede ser menor a 40 kg",
+                max: "El peso no puede superar los 200 kg"
+            }
+        },
+    });
+</script>
 @endsection

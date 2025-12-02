@@ -241,26 +241,52 @@
 
 
 
-@if(session('mensaje'))
+@if(session('success') || session('error') || session('warning'))
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        Swal.fire({
-            title: 'Confirmación!',
-            text: "{{ session('mensaje') }}",
-            icon: 'success'
-				});
-			</script>
-		@endif
+        @if(session('success'))
+            Swal.fire({
+                title: 'Éxito',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+        @elseif(session('error'))
+            Swal.fire({
+                title: 'Error',
+                text: "{{ session('error') }}",
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        @elseif(session('warning'))
+            Swal.fire({
+                title: 'Advertencia',
+                text: "{{ session('warning') }}",
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            });
+        @endif
+    </script>
+@endif
 
 
 
-			<style>
-				.error {
-					color: red;
-					font-weight: bold;
-				}
-			</style>
+		
 
 
+
+<style>
+
+    .error {
+        color: red;
+        font-family: 'Montserrat';
+        font-size: 14px;
+    }
+
+    .form-control.error {
+        border: 1px solid red;
+    }
+</style>
 
 </body>
 
