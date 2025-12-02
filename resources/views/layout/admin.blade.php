@@ -22,6 +22,15 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+
+
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+    <!-- IMPORTANDO JQUERY VALIDATE-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body id="page-top">
@@ -60,18 +69,11 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="{{route('pais.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span>Paises</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
+               
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
@@ -222,6 +224,30 @@
 <script src="{{ asset('plantilla/admin/js/demo/chart-area-demo.js') }}"></script>
 <script src="{{ asset('plantilla/admin/js/demo/chart-pie-demo.js') }}"></script>
 
+
+
+
+
+@if(session('mensaje'))
+    <script>
+        Swal.fire({
+            title: 'Confirmación!',
+            text: "{{ session('mensaje') }}",
+            icon: 'success'
+				});
+			</script>
+		@endif
+
+
+
+			<style>
+				.error {
+					color: red;
+					font-weight: bold;
+				}
+			</style>
+
+            
 
 </body>
 
