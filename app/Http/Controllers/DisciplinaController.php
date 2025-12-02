@@ -13,8 +13,10 @@ class DisciplinaController extends Controller
     public function index()
     {
         //
-        $disciplinas = Disciplina::all();
-        return view('disciplina.index',compact("disciplinas"));
+        $disciplinas=Disciplina::all();
+        return view('disciplinas.index',compact("disciplinas"));
+
+        
     }
 
     /**
@@ -23,7 +25,7 @@ class DisciplinaController extends Controller
     public function create()
     {
         //
-        return view('disciplina.nuevo');
+        return view('disciplinas.nuevo');
     }
 
     /**
@@ -55,7 +57,7 @@ class DisciplinaController extends Controller
     {
         //
         $disciplina= Disciplina::findOrFail($id);
-        return view('disciplina.editar',compact('disciplina'));
+        return view('disciplinas.editar',compact('disciplina'));
     }
 
     /**

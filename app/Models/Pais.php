@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Pais extends Model
 {
     use HasFactory;
+    protected $table = 'paises';
+
 
     protected $fillable = [
         'nombre_pais',
