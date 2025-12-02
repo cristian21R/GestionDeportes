@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -20,6 +24,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('usuarios.nuevo');
     }
 
     /**
@@ -28,6 +33,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+         $request->validate([
+        'email' => 'required|email|unique:users,email',
+        
+    ], [
+        'email.unique' => 'Este correo ya está registrado.',
+    ]);
+        $datos = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'admin', 
+        ];
+        User::create($datos);
+        return redirect()->route('user.create')->with('success','Usuario registrado con exito');
+
+
     }
 
     /**
@@ -64,7 +85,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        /*
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -77,16 +97,22 @@ class UserController extends Controller
 
             if ($usuario->role === 'admin') {
                 return redirect('/admin/inicio');
-            } elseif ($usuario->role === 'visitante') {
-                return redirect('/usuariosVista/usuarioRiesgo');
             }
 
             Auth::logout();
             return back()->withErrors(['email' => 'Rol no permitido.']);
         }
 
-        return back()->withErrors(['email' => 'Credenciales incorrectas.']);*/
-        return redirect('/admin/inicio');
+        return back()->withErrors(['email' => 'Credenciales incorrectas.']);
     }
+
+    public function logout(Request $request)
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/login')->with('success', 'Sesión cerrada correctamente');
+}
+
     
 }

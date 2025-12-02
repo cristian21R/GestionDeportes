@@ -15,6 +15,7 @@ Route::get('/', function () {
 Route::resource('pais',PaisController::class);
 Route::resource('disciplina',DisciplinaController::class);
 Route::resource('deportista',DeportistaController::class);
+Route::resource('user',UserController::class);
 
 Route::get('/admin/inicio', function () {
     return view('layout.admin');
@@ -22,3 +23,10 @@ Route::get('/admin/inicio', function () {
 
 
 Route::post('/login', [UserController::class, 'login'])->name('users.login');
+
+Route::get('/login', function () {
+    return view('login.iniciarSesion');
+})->name('login');  
+
+Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+

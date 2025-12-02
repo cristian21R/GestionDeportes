@@ -31,6 +31,22 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+
+
+     <!-- DataTables CSS y JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+
+    <!-- Librerías para exportación -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.print.min.js"></script>
+
+      <!-- CSS para los botones -->
 </head>
 
 <body id="page-top">
@@ -82,7 +98,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('deportista.index')}}" >
-                    <i class="fas fa-fw fa-cog"></i>
+                   <i class="fas fa-futbol"></i>
                     <span>Deportistas</span>
                 </a>
                
@@ -93,6 +109,23 @@
            
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('user.create')}}" >
+                    <i class="fa fa-user"></i>
+                    <span>Usuarios del sistema</span>
+                </a>
+               
+            </li>
+
+            <!-- Divider -->
+
+           
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -161,10 +194,15 @@
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 -->
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cerrar Sesion
-                                </a>
+
+                                 <form action="{{ route('user.logout') }}" method="POST" class="d-inline">
+    @csrf
+    <button type="submit" class="nav-link btn btn-link p-0 m-0" style="text-decoration: none; color: inherit;">
+        <i class="fa fa-user"></i>
+        <span>Cerrar Sesión</span>
+    </button>
+</form>
+
                             </div>
                         </li>
 

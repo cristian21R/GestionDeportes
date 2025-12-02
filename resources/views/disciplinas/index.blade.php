@@ -37,7 +37,7 @@
 
     <div style="text-align: center;">
 
-        <table class="table table-striped table-hover mb-0">
+        <table class="table table-striped table-hover mb-0" id="tbl">
             <thead class="bg-primary text-white">
                 <tr>
                     <th style="width: 60px;">ID</th>
@@ -84,4 +84,17 @@
 
 </div>
 
+<script>
+    let table = new DataTable('#tbl', {
+    layout: {
+        topStart: {
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        }
+    },
+    language: {
+        url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/es-ES.json',
+    },
+});
+    
+</script>
 @endsection
