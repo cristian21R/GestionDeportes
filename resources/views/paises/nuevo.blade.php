@@ -8,6 +8,6 @@
     <input type="text" name="nombre_pais" id="nombre_pais">
     <br>
     <button type="submit" >Guardar</button>
-    <a href="">Cancelar</a>
+    <a href="{{route ('pais.index')}}">Cancelar</a>
 </form>
 @endsection
